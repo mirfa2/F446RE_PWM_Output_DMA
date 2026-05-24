@@ -67,24 +67,34 @@ static void MX_TIM1_Init(void);
 	//	Duty% = (Capture_Compare_Register / ARR)*100
 
 	//eg: Timer_Clock = 180 MHz / 180-1	= 1MHz, 1 count = 1 microsecond
-	//	  Freq = 1Mhz / 100-1 = 10kHz, ARR = 100 counts
-	//	  Duty = 35% for CCRx = 35
-	//PWM signal has T=0.1ms and is high only for the first 35 counts of the Timer_Clock
+	//	  Freq = 1Mhz / 1000-1 = 1kHz, ARR = 1000 counts
+	//	  Duty = 35% for CCRx = 350
+	//PWM signal has T=1ms and is high only for the first 350 counts of the Timer_Clock
 
-uint16_t dutyCycles[10];//we can use DMA to move data to CRRx efficiently in runtime
-						//Data direction in this case is Memory->Peripheral (ram to CCRx)
-						//half byte because we use data bigger than 8bits
+	//we can use DMA to move data to CRRx efficiently in runtime
+	//Data direction in this case is Memory->Peripheral (ram to CCRx)
+	//half byte because we use data bigger than 8bits
 
+uint16_t dutyCycles[10];
 int count = 0;
+int DMAcount=0;
+
+// Pre-computed 32-point sine wave scaled for ARR = 1000
+const uint16_t SINE_WAVE_LUT[32] = {
+    500, 597, 691, 777, 853, 915, 961, 990,
+    1000, 990, 961, 915, 853, 777, 691, 597,
+    500, 402, 308, 222, 146, 84,  38,  9,
+    0,   9,   38,  84,  146, 222, 308, 402
+};
 
 //DMA calls this callback after finishing transferring data to the timer CCRx
 void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
-	count++;
-	if (count >= 1000)
-	{
-		HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);	//stop the DMA in circular mode
-	}
+	//	if (DMAcount >= 1000)
+	//	{
+	//		HAL_TIM_PWM_Stop_DMA(htim, TIM_CHANNEL_1);	//stop the DMA in circular mode
+	//	}
+	DMAcount++;
 }
 
 /* USER CODE END 0 */
@@ -142,11 +152,13 @@ int main(void)
 //  	 dutyCycles[6]=70;
 //  	 dutyCycles[7]=80;
 //  	 dutyCycles[8]=90;
-//  	 dutyCycles[9]=0;
+//  	 dutyCycles[9]=100;
 //
 //  	 //DMA will send 10 elements from dutyCycles array directly into CCR1 of TIM1
 //  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)dutyCycles, 10);
 
+  	  	 //LED fade in and out smoothly like a sine wave
+  	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT, 32);
 
 
   /* USER CODE END 2 */
@@ -159,20 +171,23 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  //Update duty cycle dynamically using set CCR function
-	  //pwm must be started first for the set CCR function to work
-	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+//	  //Update duty cycle dynamically using set CCR function
+//	  //pwm must be started first for the set CCR function to work
+//	  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+//
+//	  for(int i = 0; i < 100; i += 5)
+//	  {
+//		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, i);  // TIM1->CCR1 = i;
+//	   	  HAL_Delay(500);  // Wait 500ms before changing duty cycle
+//
+//		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//		  count++;
+//	  }
 
-	  for(int i = 0; i < 100; i += 10)
-	  {
 
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, i);  // TIM1->CCR1 = i;
-	   	  HAL_Delay(500);  // Wait 500ms before changing duty cycle
-
-		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-		  count++;
-
-	  }
+	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  count++;
+	  HAL_Delay(500);
 
 
   }
