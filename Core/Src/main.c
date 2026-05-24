@@ -143,23 +143,17 @@ int main(void)
 //  //PWM Output using DMA
 //
 //  	 //set data for DMA to move
-//  	 dutyCycles[0]=10;
-//  	 dutyCycles[1]=20;
-//  	 dutyCycles[2]=30;
-//  	 dutyCycles[3]=40;
-//  	 dutyCycles[4]=50;
-//  	 dutyCycles[5]=60;
-//  	 dutyCycles[6]=70;
-//  	 dutyCycles[7]=80;
-//  	 dutyCycles[8]=90;
-//  	 dutyCycles[9]=100;
+//  	 dutyCycles[0]=10;dutyCycles[1]=20;dutyCycles[2]=30;dutyCycles[3]=40;dutyCycles[4]=50;
+//  	 dutyCycles[5]=60;dutyCycles[6]=70;dutyCycles[7]=80;dutyCycles[8]=90;dutyCycles[9]=100;
 //
 //  	 //DMA will send 10 elements from dutyCycles array directly into CCR1 of TIM1
 //  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)dutyCycles, 10);
 
-  	  	 //LED fade in and out smoothly like a sine wave
-  	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT, 32);
 
+  	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT, 32);
+ 	  	 //LED fade in and out smoothly like a sine wave
+  	  	 //eg: Timer_Clock = 180 MHz / 180-1	= 1 MHz
+  		 //	   Freq = 1 Mhz / 1000-1 = 1 kHz, ARR = 1000 counts
 
   /* USER CODE END 2 */
 
@@ -268,9 +262,9 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 180-1;
+  htim1.Init.Prescaler = 1800-1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 100-1;
+  htim1.Init.Period = 1000-1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
