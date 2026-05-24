@@ -7,45 +7,45 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         000034f0  080001c4  080001c4  000011c4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       00000058  080036b4  080036b4  000046b4  2**2
+  2 .rodata       00000418  080036b4  080036b4  000046b4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800370c  0800370c  0000500c  2**0
+  3 .ARM.extab    00000000  08003acc  08003acc  0000500c  2**0
                   CONTENTS, READONLY
-  4 .ARM          00000008  0800370c  0800370c  0000470c  2**2
+  4 .ARM          00000008  08003acc  08003acc  00004acc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08003714  08003714  0000500c  2**0
+  5 .preinit_array 00000000  08003ad4  08003ad4  0000500c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08003714  08003714  00004714  2**2
+  6 .init_array   00000004  08003ad4  08003ad4  00004ad4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  08003718  08003718  00004718  2**2
+  7 .fini_array   00000004  08003ad8  08003ad8  00004ad8  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         0000000c  20000000  0800371c  00005000  2**2
+  8 .data         0000000c  20000000  08003adc  00005000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000000d0  2000000c  08003728  0000500c  2**2
+  9 .bss          000000d0  2000000c  08003ae8  0000500c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200000dc  08003728  000050dc  2**0
+ 10 ._user_heap_stack 00000604  200000dc  08003ae8  000050dc  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0000500c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000a5b2  00000000  00000000  0000503c  2**0
+ 12 .debug_info   0000a5d9  00000000  00000000  0000503c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001c37  00000000  00000000  0000f5ee  2**0
+ 13 .debug_abbrev 00001c40  00000000  00000000  0000f615  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000ae0  00000000  00000000  00011228  2**3
+ 14 .debug_aranges 00000ae0  00000000  00000000  00011258  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000864  00000000  00000000  00011d08  2**0
+ 15 .debug_rnglists 00000864  00000000  00000000  00011d38  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00020df3  00000000  00000000  0001256c  2**0
+ 16 .debug_macro  00020df3  00000000  00000000  0001259c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000d0ad  00000000  00000000  0003335f  2**0
+ 17 .debug_line   0000d0ad  00000000  00000000  0003338f  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000cae68  00000000  00000000  0004040c  2**0
+ 18 .debug_str    000cae7d  00000000  00000000  0004043c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  0010b274  2**0
+ 19 .comment      00000043  00000000  00000000  0010b2b9  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00002ab8  00000000  00000000  0010b2b8  2**2
+ 20 .debug_frame  00002ab8  00000000  00000000  0010b2fc  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006e  00000000  00000000  0010dd70  2**0
+ 21 .debug_line_str 0000006e  00000000  00000000  0010ddb4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -370,7 +370,7 @@ Disassembly of section .text:
  800052e:	bf00      	nop
 
 08000530 <HAL_TIM_PWM_PulseFinishedCallback>:
-    0,   9,   38,  84,  146, 222, 308, 402
+     402,  408,  415,  421,  427,  433,  439,  445,  451,  457,  463,  469,  475,  482,  488,  494
 };
 
 //DMA calls this callback after finishing transferring data to the timer CCRx
@@ -438,34 +438,33 @@ int main(void)
 //  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)dutyCycles, 10);
 
 
-  	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT, 32);
- 800056c:	2320      	movs	r3, #32
- 800056e:	4a0a      	ldr	r2, [pc, #40]	@ (8000598 <main+0x44>)
- 8000570:	2100      	movs	r1, #0
- 8000572:	480a      	ldr	r0, [pc, #40]	@ (800059c <main+0x48>)
- 8000574:	f002 f84c 	bl	8002610 <HAL_TIM_PWM_Start_DMA>
+  	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT_512, 512);
+ 800056c:	f44f 7300 	mov.w	r3, #512	@ 0x200
+ 8000570:	4a09      	ldr	r2, [pc, #36]	@ (8000598 <main+0x44>)
+ 8000572:	2100      	movs	r1, #0
+ 8000574:	4809      	ldr	r0, [pc, #36]	@ (800059c <main+0x48>)
+ 8000576:	f002 f84b 	bl	8002610 <HAL_TIM_PWM_Start_DMA>
 //		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 //		  count++;
 //	  }
 
 
 	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
- 8000578:	2120      	movs	r1, #32
- 800057a:	4809      	ldr	r0, [pc, #36]	@ (80005a0 <main+0x4c>)
- 800057c:	f001 f981 	bl	8001882 <HAL_GPIO_TogglePin>
+ 800057a:	2120      	movs	r1, #32
+ 800057c:	4808      	ldr	r0, [pc, #32]	@ (80005a0 <main+0x4c>)
+ 800057e:	f001 f980 	bl	8001882 <HAL_GPIO_TogglePin>
 	  count++;
- 8000580:	4b08      	ldr	r3, [pc, #32]	@ (80005a4 <main+0x50>)
- 8000582:	681b      	ldr	r3, [r3, #0]
- 8000584:	3301      	adds	r3, #1
- 8000586:	4a07      	ldr	r2, [pc, #28]	@ (80005a4 <main+0x50>)
- 8000588:	6013      	str	r3, [r2, #0]
+ 8000582:	4b08      	ldr	r3, [pc, #32]	@ (80005a4 <main+0x50>)
+ 8000584:	681b      	ldr	r3, [r3, #0]
+ 8000586:	3301      	adds	r3, #1
+ 8000588:	4a06      	ldr	r2, [pc, #24]	@ (80005a4 <main+0x50>)
+ 800058a:	6013      	str	r3, [r2, #0]
 	  HAL_Delay(500);
- 800058a:	f44f 70fa 	mov.w	r0, #500	@ 0x1f4
- 800058e:	f000 fb25 	bl	8000bdc <HAL_Delay>
+ 800058c:	f44f 70fa 	mov.w	r0, #500	@ 0x1f4
+ 8000590:	f000 fb24 	bl	8000bdc <HAL_Delay>
 	  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
- 8000592:	bf00      	nop
- 8000594:	e7f0      	b.n	8000578 <main+0x24>
- 8000596:	bf00      	nop
+ 8000594:	bf00      	nop
+ 8000596:	e7f0      	b.n	800057a <main+0x26>
  8000598:	080036b4 	.word	0x080036b4
  800059c:	20000028 	.word	0x20000028
  80005a0:	40020000 	.word	0x40020000
@@ -1532,7 +1531,7 @@ LoopFillZerobss:
   ldr r1, =_edata
  8000ae4:	2000000c 	.word	0x2000000c
   ldr r2, =_sidata
- 8000ae8:	0800371c 	.word	0x0800371c
+ 8000ae8:	08003adc 	.word	0x08003adc
   ldr r2, =_sbss
  8000aec:	2000000c 	.word	0x2000000c
   ldr r4, =_ebss
@@ -3310,7 +3309,7 @@ static uint32_t DMA_CalcBaseAndBitshift(DMA_HandleTypeDef *hdma)
  8001424:	4770      	bx	lr
  8001426:	bf00      	nop
  8001428:	aaaaaaab 	.word	0xaaaaaaab
- 800142c:	08003704 	.word	0x08003704
+ 800142c:	08003ac4 	.word	0x08003ac4
 
 08001430 <DMA_CheckFifoParam>:
   * @param  hdma       pointer to a DMA_HandleTypeDef structure that contains
@@ -4514,7 +4513,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(const RCC_ClkInitTypeDef  *RCC_ClkInitStru
  8001b0e:	bf00      	nop
  8001b10:	40023c00 	.word	0x40023c00
  8001b14:	40023800 	.word	0x40023800
- 8001b18:	080036f4 	.word	0x080036f4
+ 8001b18:	08003ab4 	.word	0x08003ab4
  8001b1c:	20000000 	.word	0x20000000
  8001b20:	20000004 	.word	0x20000004
 
@@ -9122,10 +9121,10 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakDeadTime(TIM_HandleTypeDef *htim,
  8003686:	4798      	blx	r3
  8003688:	3601      	adds	r6, #1
  800368a:	e7f2      	b.n	8003672 <__libc_init_array+0x1e>
- 800368c:	08003714 	.word	0x08003714
- 8003690:	08003714 	.word	0x08003714
- 8003694:	08003714 	.word	0x08003714
- 8003698:	08003718 	.word	0x08003718
+ 800368c:	08003ad4 	.word	0x08003ad4
+ 8003690:	08003ad4 	.word	0x08003ad4
+ 8003694:	08003ad4 	.word	0x08003ad4
+ 8003698:	08003ad8 	.word	0x08003ad8
 
 0800369c <_init>:
  800369c:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
