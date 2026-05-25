@@ -63,7 +63,7 @@ static void MX_TIM1_Init(void);
 	//timer counts up till it ARR then reset to 0
 
 	//	Timer_Clock = APB_TIMER_CLOCK / PRESCALER_SETTING
-	//	PWM Frequency = Timer_Clock	/ Auto_Reload_Register(ARR)
+	//	Clock Freq = PWM Freq = Timer_Clock	/ Auto_Reload_Register(ARR)
 	//	Duty% = (Capture_Compare_Register / ARR)*100
 
 	//eg: Timer_Clock = 180 MHz / 180-1	= 1MHz, 1 count = 1 microsecond
