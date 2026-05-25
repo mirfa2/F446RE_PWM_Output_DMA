@@ -73,7 +73,7 @@ static void MX_TIM1_Init(void);
 
 	//we can use DMA to move data to CRRx efficiently in runtime
 	//Data direction in this case is Memory->Peripheral (ram to CCRx)
-	//half byte because we use data bigger than 8bits
+	//half byte because we use data bigger than 8bits, circular
 
 uint16_t dutyCycles[10];
 int count = 0;
@@ -188,11 +188,11 @@ int main(void)
 
   	  	 HAL_TIM_PWM_Start_DMA(&htim1, TIM_CHANNEL_1, (uint32_t *)SINE_WAVE_LUT_512, 512);
  	  	 //LED fade in and out smoothly like a sine wave
-  	  	 //eg: Timer_Clock = 180 MHz / 180-1	= 1 MHz
-  		 //	   PWM Freq = 1 Mhz / 1000-1 = 1 kHz (flicker starts to be unnoticeable)
+  	  	 //eg: Timer_Clock = 180 MHz / 1800-1	= 100 kHz
+  		 //	   PWM Freq = 100 khz / 1000-1 = 100 Hz
 
   	  	 //frequency_sine_wave = frequency_PWM / Sine_Wave_LUT_Points
-  	  	 //	f_32 = 1kHz/32 = 31.25Hz, f_512 = 1kHz/512 = 1.92Hz
+  	  	 //	f_32 = 100 Hz/32 = 3.125Hz, f_512 = 100 Hz/512 = 0.192Hz
 
   /* USER CODE END 2 */
 
